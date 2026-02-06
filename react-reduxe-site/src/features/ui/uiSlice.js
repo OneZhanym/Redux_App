@@ -21,7 +21,7 @@ const uiSlice = createSlice ({
             state.theme = state.theme === 'light' ? 'dark': 'light'
         }
     }
-})
+});
 
 
 export const { toggleTheme } = uiSlice.actions
