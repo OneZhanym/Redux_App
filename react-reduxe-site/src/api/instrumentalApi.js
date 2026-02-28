@@ -1,4 +1,4 @@
-const instruments = [
+let instruments = [
     {
         id: 1,
         name: 'Гитара',
@@ -95,3 +95,27 @@ export const fetchInstrumentalByIdApi = async(id) =>{
     await delay(300);
     return instruments.find(inst=>inst.id=== Number(id));
 }
+
+// Создать инструмент
+export const createInstrumentalApi = async (data) => {
+    await delay(300);
+    const newId = instruments.length ? Math.max(...instruments.map(i => i.id)) + 1 : 1;
+    const newInstrument = { ...data, id: newId };
+    instruments = [...instruments, newInstrument];
+    return newInstrument;
+};
+
+// Обновить инструмент
+export const updateInstrumentalApi = async (id, data) => {
+    await delay(300);
+    instruments = instruments.map(inst => inst.id === Number(id) ? { ...inst, ...data, id: Number(id) } : inst);
+    return instruments.find(inst => inst.id === Number(id));
+};
+
+// Удалить инструмент
+export const deleteInstrumentalApi = async (id) => {
+    await delay(300);
+    const deleted = instruments.find(inst => inst.id === Number(id));
+    instruments = instruments.filter(inst => inst.id !== Number(id));
+    return deleted;
+};

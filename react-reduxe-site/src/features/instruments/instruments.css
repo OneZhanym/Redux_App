@@ -263,3 +263,215 @@
         width: 100%;
     }
 }
+
+/* --- Улучшенные стили для CRUD формы и кнопок --- */
+.form-container {
+    background: var(--form-bg);
+    color: var(--form-text);
+    border-radius: 16px;
+    padding: 36px 32px;
+    max-width: 520px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 12px 32px rgba(52, 152, 219, 0.12), 0 2px 8px rgba(0,0,0,0.08);
+    animation: fadeInForm 0.5s cubic-bezier(.4,0,.2,1);
+}
+@keyframes fadeInForm {
+    from { opacity: 0; transform: translateY(40px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+.form-header h2 {
+    margin: 0;
+    color: var(--form-header);
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-shadow: 0 2px 8px rgba(52,152,219,0.08);
+}
+.btn-close {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    background: #f8fafc;
+    border: 1.5px solid #bdc3c7;
+    font-size: 24px;
+    cursor: pointer;
+    color: #1370ce;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(52,152,219,0.08);
+    transition: background 0.2s, border-color 0.2s, color 0.2s, transform 0.15s;
+    outline: none;
+    position: relative;
+    font-weight: bold;
+}
+.btn-close:hover {
+    background: #e3eafc;
+    border-color: #1370ce;
+    color: #e74c3c;
+    transform: scale(1.08);
+}
+.btn-close:active {
+    transform: scale(0.96);
+}
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 14px 16px;
+    border: 1.5px solid var(--input-border);
+    border-radius: 8px;
+    font-size: 15px;
+    font-family: inherit;
+    background: var(--input-bg);
+    transition: border-color 0.3s, box-shadow 0.3s;
+    box-sizing: border-box;
+    outline: none;
+}
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: var(--input-focus);
+    box-shadow: 0 0 0 4px rgba(52, 152, 219, 0.12);
+}
+.btn-cancel {
+    flex: 1;
+    padding: 14px;
+    background: var(--btn-cancel-bg);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    box-shadow: 0 2px 8px rgba(52,152,219,0.08);
+    transition: background 0.3s;
+}
+.btn-cancel:hover {
+    background: linear-gradient(90deg, #7f8c8d 60%, #bdc3c7 100%);
+}
+.btn-submit {
+    flex: 1;
+    padding: 14px;
+    background: var(--btn-submit-bg);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    box-shadow: 0 2px 8px rgba(52,152,219,0.08);
+    transition: background 0.3s;
+}
+.btn-submit:hover:not(:disabled) {
+    background: linear-gradient(90deg, #229954 60%, #27ae60 100%);
+}
+.btn-submit:disabled {
+    background: #bdc3c7;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+/* --- Конец улучшенных стилей --- */
+
+/* --- Темы: светлая и тёмная --- */
+:root {
+    --form-bg-light: linear-gradient(135deg, #f8fafc 0%, #e3eafc 100%);
+    --form-bg-dark: linear-gradient(135deg, #23272f 0%, #2c3440 100%);
+    --form-text-light: #222;
+    --form-text-dark: #f3f6fa;
+    --form-header-light: #1370ce;
+    --form-header-dark: #7ab7ff;
+    --input-bg-light: #f8fafc;
+    --input-bg-dark: #23272f;
+    --input-border-light: #bdc3c7;
+    --input-border-dark: #444b5a;
+    --input-focus-light: #1370ce;
+    --input-focus-dark: #7ab7ff;
+    --btn-cancel-bg-light: linear-gradient(90deg, #95a5a6 60%, #bdc3c7 100%);
+    --btn-cancel-bg-dark: linear-gradient(90deg, #444b5a 60%, #23272f 100%);
+    --btn-submit-bg-light: linear-gradient(90deg, #27ae60 60%, #229954 100%);
+    --btn-submit-bg-dark: linear-gradient(90deg, #1370ce 60%, #27ae60 100%);
+}
+
+body.dark-theme {
+    --form-bg: var(--form-bg-dark);
+    --form-text: var(--form-text-dark);
+    --form-header: var(--form-header-dark);
+    --input-bg: var(--input-bg-dark);
+    --input-border: var(--input-border-dark);
+    --input-focus: var(--input-focus-dark);
+    --btn-cancel-bg: var(--btn-cancel-bg-dark);
+    --btn-submit-bg: var(--btn-submit-bg-dark);
+}
+body:not(.dark-theme) {
+    --form-bg: var(--form-bg-light);
+    --form-text: var(--form-text-light);
+    --form-header: var(--form-header-light);
+    --input-bg: var(--input-bg-light);
+    --input-border: var(--input-border-light);
+    --input-focus: var(--input-focus-light);
+    --btn-cancel-bg: var(--btn-cancel-bg-light);
+    --btn-submit-bg: var(--btn-submit-bg-light);
+}
+
+.form-container {
+    background: var(--form-bg);
+    color: var(--form-text);
+}
+.form-header h2 {
+    color: var(--form-header);
+    text-shadow: none;
+}
+.form-group label {
+    color: var(--form-header);
+}
+.form-group input,
+.form-group select,
+.form-group textarea {
+    background: var(--input-bg);
+    color: var(--form-text);
+    border: 1.5px solid var(--input-border);
+}
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: var(--input-focus);
+    box-shadow: 0 0 0 4px rgba(52, 152, 219, 0.12);
+}
+.btn-cancel {
+    background: var(--btn-cancel-bg);
+}
+.btn-submit {
+    background: var(--btn-submit-bg);
+}
+.btn-close {
+    color: var(--form-header);
+}
+.btn-close:hover {
+    background: var(--input-bg);
+}
+.error-message {
+    color: #e74c3c;
+}
+/* --- Конец тем --- */
+
+.btn-add-new {
+    background-color: #27ae60;
+    color: white;
+    border: none;
+    padding: 16px 32px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0 auto;
+    box-shadow: 0 2px 8px rgba(52,152,219,0.08);
+    transition: background 0.3s, transform 0.2s;
+    display: block;
+}
+.btn-add-new:hover {
+    background-color: #229954;
+    transform: scale(1.05);
+}

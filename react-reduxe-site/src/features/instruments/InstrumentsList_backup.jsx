@@ -1,12 +1,11 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect } from 'react';
-import { fetchInstruments, fetchInstrumentById, openForm, closeForm, deleteInstrument } from './instrumentsSlice';
-import InstrumentForm from './InstrumentForm';
+import { fetchInstruments, fetchInstrumentById } from './instrumentsSlice';
 import './instruments.css';
 
 const InstrumentsList = () => {
     const dispatch = useDispatch();
-    const { items, selectedInstrument, loading, showForm, editingId } = useSelector(state => state.instruments);
+    const { items, selectedInstrument, loading } = useSelector(state => state.instruments);
 
     useEffect(() => {
         dispatch(fetchInstruments());
@@ -41,14 +40,9 @@ const InstrumentsList = () => {
                             <span className="price-label">Цена:</span>
                             <span className="price-value">${selectedInstrument.price}</span>
                         </div>
-                        <div className="detail-actions">
-                            <button className="btn-edit" onClick={() => dispatch(openForm(selectedInstrument.id))}>Редактировать</button>
-                            <button className="btn-delete" onClick={() => dispatch(deleteInstrument(selectedInstrument.id))}>Удалить</button>
-                        </div>
                         <button className="btn-buy">Купить</button>
                     </div>
                 </div>
-                {showForm && <InstrumentForm />}
             </div>
         );
     }
@@ -75,21 +69,11 @@ const InstrumentsList = () => {
                                 >
                                     Подробнее
                                 </button>
-                                <div className="card-actions">
-                                    <button className="btn-edit-card" onClick={() => dispatch(openForm(instrument.id))}>✏️</button>
-                                    <button className="btn-delete-card" onClick={() => dispatch(deleteInstrument(instrument.id))}>🗑️</button>
-                                </div>
                             </div>
                         </div>
                     </div>
                 ))}
             </div>
-            <div style={{ display: 'flex', justifyContent: 'center', marginTop: '32px' }}>
-                <button className="btn-add-new" onClick={() => dispatch(openForm())}>
-                    Добавить инструмент
-                </button>
-            </div>
-            {showForm && <InstrumentForm />}
         </div>
     );
 };
