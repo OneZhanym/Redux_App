@@ -89,6 +89,35 @@ const instrumentsSlice = createSlice({
         closeForm(state) {
             state.showForm = false;
             state.editingId = null;
+        },
+        toggleLike(state, action) {
+            const item = state.items.find(i => i.id === action.payload);
+            if (item) {
+                item.likes = (item.likes || 0) + 1;
+                if (state.selectedInstrument?.id === action.payload) {
+                    state.selectedInstrument.likes = item.likes;
+                }
+            }
+        },
+        toggleFavorite(state, action) {
+            const item = state.items.find(i => i.id === action.payload);
+            if (item) {
+                item.isFavorite = !item.isFavorite;
+                if (state.selectedInstrument?.id === action.payload) {
+                    state.selectedInstrument.isFavorite = item.isFavorite;
+                }
+            }
+        },
+        addRating(state, action) {
+            const { id, rating } = action.payload;
+            const item = state.items.find(i => i.id === id);
+            if (item) {
+                if (!item.ratings) item.ratings = [];
+                item.ratings.push(rating);
+                if (state.selectedInstrument?.id === id) {
+                    state.selectedInstrument.ratings = [...item.ratings];
+                }
+            }
         }
     },
     extraReducers: (builder) => {
@@ -140,5 +169,5 @@ const instrumentsSlice = createSlice({
     }
 });
 
-export const { setSelectedInstrument, clearSelectedInstrument, openForm, closeForm } = instrumentsSlice.actions;
+export const { setSelectedInstrument, clearSelectedInstrument, openForm, closeForm, toggleLike, toggleFavorite, addRating } = instrumentsSlice.actions;
 export default instrumentsSlice.reducer;

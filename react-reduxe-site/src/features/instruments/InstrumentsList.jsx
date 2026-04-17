@@ -1,11 +1,12 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { useEffect } from 'react';
-import { fetchInstruments, fetchInstrumentById, openForm, closeForm, deleteInstrument } from './instrumentsSlice';
+import { useEffect, useState } from 'react';
+import { fetchInstruments, fetchInstrumentById, openForm, closeForm, deleteInstrument, toggleLike, toggleFavorite, addRating, clearSelectedInstrument } from './instrumentsSlice';
 import InstrumentForm from './InstrumentForm';
 import './instruments.css';
 
 const InstrumentsList = () => {
     const dispatch = useDispatch();
+    const [showOnlyFavorites, setShowOnlyFavorites] = useState(false);
     const { items, selectedInstrument, loading, showForm, editingId } = useSelector(state => state.instruments);
 
     useEffect(() => {
@@ -17,8 +18,16 @@ const InstrumentsList = () => {
     };
 
     const handleBackToList = () => {
-        dispatch({ type: 'instruments/clearSelectedInstrument' });
+        dispatch(clearSelectedInstrument());
     };
+
+    const getAverageRating = (ratings) => {
+        if (!ratings || ratings.length === 0) return 0;
+        const sum = ratings.reduce((acc, curr) => acc + curr, 0);
+        return (sum / ratings.length).toFixed(1);
+    };
+
+    const displayedItems = showOnlyFavorites ? items.filter(item => item.isFavorite) : items;
 
     if (loading) {
         return <div className="instruments-container">Загрузка данных...</div>;
@@ -36,10 +45,29 @@ const InstrumentsList = () => {
                     <div className="detail-content">
                         <h1>{selectedInstrument.name}</h1>
                         <p className="instrument-type">Тип: <strong>{selectedInstrument.type}</strong></p>
+                        <div className="rating-display">
+                            ⭐ Средняя оценка: {getAverageRating(selectedInstrument.ratings)} ({selectedInstrument.ratings?.length || 0} отзывов)
+                        </div>
                         <p className="instrument-description">{selectedInstrument.description}</p>
                         <div className="instrument-price">
                             <span className="price-label">Цена:</span>
                             <span className="price-value">${selectedInstrument.price}</span>
+                        </div>
+                        <div className="interaction-bar">
+                            <button className={`btn-fav ${selectedInstrument.isFavorite ? 'active' : ''}`} onClick={() => dispatch(toggleFavorite(selectedInstrument.id))}>
+                                {selectedInstrument.isFavorite ? '❤️ В избранном' : '🤍 В избранное'}
+                            </button>
+                            <button className="btn-like-big" onClick={() => dispatch(toggleLike(selectedInstrument.id))}>
+                                👍 Лайк ({selectedInstrument.likes || 0})
+                            </button>
+                        </div>
+                        <div className="rating-input">
+                            <span>Оцените:</span>
+                            {[1, 2, 3, 4, 5].map(num => (
+                                <button key={num} onClick={() => dispatch(addRating({ id: selectedInstrument.id, rating: num }))}>
+                                    {num}
+                                </button>
+                            ))}
                         </div>
                         <div className="detail-actions">
                             <button className="btn-edit" onClick={() => dispatch(openForm(selectedInstrument.id))}>Редактировать</button>
@@ -56,12 +84,26 @@ const InstrumentsList = () => {
     // Режим LIST - показываем список инструментов
     return (
         <div className="instruments-container">
-            <h2>Каталог музыкальных инструментов</h2>
+            <div className="list-header">
+                <h2>{showOnlyFavorites ? '❤️ Избранные инструменты' : 'Каталог музыкальных инструментов'}</h2>
+                <button className="btn-filter-fav" onClick={() => setShowOnlyFavorites(!showOnlyFavorites)}>
+                    {showOnlyFavorites ? 'Показать все' : 'Показать избранное'}
+                </button>
+            </div>
+            
             <div className="instruments-grid">
-                {items.map(instrument => (
+                {displayedItems.map(instrument => (
                     <div key={instrument.id} className="instrument-card">
                         <div className="card-image">
                             <img src={instrument.image} alt={instrument.name} />
+                            <div className="card-badges">
+                                <button 
+                                    className={`badge-fav ${instrument.isFavorite ? 'active' : ''}`}
+                                    onClick={(e) => { e.stopPropagation(); dispatch(toggleFavorite(instrument.id)); }}
+                                >
+                                    {instrument.isFavorite ? '❤️' : '🤍'}
+                                </button>
+                            </div>
                         </div>
                         <div className="card-content">
                             <h3>{instrument.name}</h3>
@@ -75,6 +117,10 @@ const InstrumentsList = () => {
                                 >
                                     Подробнее
                                 </button>
+                                <div className="card-rating-mini">
+                                    ⭐ {getAverageRating(instrument.ratings)}
+                                </div>
+                                <button className="btn-like-mini" onClick={() => dispatch(toggleLike(instrument.id))}>👍 {instrument.likes || 0}</button>
                                 <div className="card-actions">
                                     <button className="btn-edit-card" onClick={() => dispatch(openForm(instrument.id))}>✏️</button>
                                     <button className="btn-delete-card" onClick={() => dispatch(deleteInstrument(instrument.id))}>🗑️</button>

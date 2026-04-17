@@ -475,3 +475,105 @@ body:not(.dark-theme) {
     background-color: #229954;
     transform: scale(1.05);
 }
+
+/* --- Новые стили для Like/Favorite/Rating --- */
+.list-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.btn-filter-fav {
+    padding: 10px 20px;
+    border-radius: 20px;
+    border: 2px solid #e74c3c;
+    background: transparent;
+    color: #e74c3c;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.btn-filter-fav:hover {
+    background: #e74c3c;
+    color: white;
+}
+
+.card-badges {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.badge-fav {
+    background: rgba(255, 255, 255, 0.8);
+    border: none;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    cursor: pointer;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.interaction-bar {
+    display: flex;
+    gap: 15px;
+    margin: 15px 0;
+}
+
+.btn-fav, .btn-like-big {
+    padding: 10px 20px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.btn-fav.active {
+    background-color: #ffebee;
+    border-color: #e74c3c;
+}
+
+.rating-input {
+    margin: 20px 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.rating-input button {
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    border-radius: 4px;
+    border: 1px solid #3498db;
+    background: white;
+}
+
+.rating-input button:hover {
+    background: #3498db;
+    color: white;
+}
+
+.card-rating-mini {
+    font-weight: bold;
+    color: #f1c40f;
+}
+
+.btn-like-mini {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.rating-display {
+    font-size: 16px;
+    color: #f39c12;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
